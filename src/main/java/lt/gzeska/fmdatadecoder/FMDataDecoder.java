@@ -1,6 +1,6 @@
 package lt.gzeska.fmdatadecoder;
 
-import lt.gzeska.fmdatadecoder.decoders.DiscardServerHandler;
+import lt.gzeska.fmdatadecoder.decoders.RuptelaFMHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -34,7 +34,7 @@ public class FMDataDecoder
              .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
-                     ch.pipeline().addLast(new RuptelaDecoder(),new DiscardServerHandler());
+                     ch.pipeline().addLast(new RuptelaDecoder(),new RuptelaFMHandler());
                  }
              })
              .option(ChannelOption.SO_BACKLOG, 128)          // (5)

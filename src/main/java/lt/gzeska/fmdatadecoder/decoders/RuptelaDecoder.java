@@ -4,19 +4,21 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
+import lt.gzeska.fmdatadecoder.packet.BasePacket;
 
 /**
  *
  * @author gzeska
  */
 public class RuptelaDecoder extends ByteToMessageDecoder{
-
+    BasePacket packet = new BasePacket();
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         short length = 0;
         //Reading package length
         if(in.readableBytes() >= 2){
             length = in.readShort();
+            packet.setLength(length);
         }else{
             return;
         }
@@ -25,6 +27,7 @@ public class RuptelaDecoder extends ByteToMessageDecoder{
         
         if(in.readableBytes() >=length){
             in.readBytes(payload);
+            packet.setPayload(payload);
         }else{
             return;
         }
@@ -37,11 +40,12 @@ public class RuptelaDecoder extends ByteToMessageDecoder{
             int firstByte = (0x000000FF & ((int) crcBuffer[0]));
             int secondByte = (0x000000FF & ((int) crcBuffer[1]));
             crc16 = (char) (firstByte << 8 | secondByte);      
-            out.add("Message");
+            packet.setCrc16(crc16);
+            packet.parse();
         }else{
             return;
         }
-        
+        out.add(packet);
     }
     
 }

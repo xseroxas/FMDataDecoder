@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lt.gzeska.fmdatadecoder.decoders;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lt.gzeska.fmdatadecoder.packet.BasePacket;
 
 /**
  *
  * @author gzeska
  */
-public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
+public class RuptelaFMHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -32,9 +28,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("Read");
-        System.out.println("Message: "+(String)msg);
+        System.out.println("Message: "+(BasePacket)msg);
     }
-    
-    
     
 }
